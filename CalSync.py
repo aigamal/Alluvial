@@ -267,12 +267,3 @@ while len(gXYZlist) != 0:
         gXYZlist.remove(i)
 print('\n### END Cleaning Cycle ### ',datetime.now())
 print(30*'\/')
-#time.sleep(10800)
-
-'''
-pip install requests
-pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-#pip install --upgrade google-cloud-storage
-pip3 install zoneinfo
-
-'''
