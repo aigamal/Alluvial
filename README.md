@@ -9,8 +9,8 @@ Here's a brief overview of some of the projects included in this repository:
 ### CalSync
 A script to sync and update my calendars from different sources to a single personal view.
 
-### Ransomware
-A sample ransomware implementation (for educational purposes only).
+### Cloud Moniter
+A sample code that reads information from an external CSV file containing a list of nodes, services running on each node, and files/folders to back up. 
 
 ### Simple JWT Verification Proxy
 A reverse proxy that acts as a gateway for services and verifies JWT tokens before forwarding requests. This adds an additional layer of security and can centralize token validation logic.
