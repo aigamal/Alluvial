@@ -1,3 +1,4 @@
+import json
 import csv
 import os
 import paramiko
@@ -11,7 +12,7 @@ def check_latency(node):
     response_time = ping(node)
     return response_time
 
-def backup_files(node, files_to_backup, ssh_key_path, remote_backup_path):
+def backup_files(node, files_to_backup, ssh_key_path, remote_backup_path, username):
     # Connect to the node using SSH
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -19,8 +20,7 @@ def backup_files(node, files_to_backup, ssh_key_path, remote_backup_path):
     private_key = paramiko.RSAKey.from_private_key_file(ssh_key_path)
 
     try:
-        ssh.connect(node, username='your_username', pkey=private_key)
-        
+        ssh.connect(node, username=username, pkey=private_key)        
         # Create a temporary directory for backup files on the remote node
         remote_tmp_backup_dir = os.path.join(remote_backup_path, f"backup_{node}")
         ssh.exec_command(f"mkdir -p {remote_tmp_backup_dir}")
@@ -65,26 +65,30 @@ def check_service(node, service, port):
         return False
 
 def main():
+    with open('cloudbkup.json', 'r') as config_file:
+        config = json.load(config_file)
+
+    ssh_key_path = config["ssh_key_path"]
+    remote_backup_path = config["remote_backup_path"]
+    username = config["username"]
+
     nodes = []
-    with open('nodes_ips.csv', 'r') as csv_file:
+    with open(config["nodes_ips_file"], 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         for row in csv_reader:
             node, ip = row
             nodes.append({'node': node, 'ip': ip})
 
     files_to_backup = []
-    with open('files_to_backup.txt', 'r') as file:
+    with open(config["files_to_backup_file"], 'r') as file:
         files_to_backup = [line.strip() for line in file.readlines()]
 
     services_and_ports = []
-    with open('services_and_ports.csv', 'r') as csv_file:
+    with open(config["services_and_ports_file"], 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         for row in csv_reader:
             node, service, port = row
             services_and_ports.append({'node': node, 'service': service, 'port': int(port)})
-
-    ssh_key_path = '/path/to/your/ssh/key/id_rsa'
-    remote_backup_path = '/path/to/remote/backup/directory'
 
     for node_info in nodes:
         node = node_info['node']
@@ -97,7 +101,7 @@ def main():
         print(f"Network latency for node {node}: {latency} ms")
 
         print(f"Backing up files for node {node}")
-        backup_files(node, files_to_backup_on_node, ssh_key_path, remote_backup_path)
+        backup_files(node, files_to_backup_on_node, ssh_key_path, remote_backup_path, username)
 
         for service_info in services_on_node:
             service = service_info['service']
