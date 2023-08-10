@@ -1,0 +1,15 @@
+{
+    "tenantid": "XXXXXXX",
+    "clientid": "XXXXXXXXXXX",
+    "APIend": "https://login.microsoftonline.com/XXXXXXX/oauth2/v2.0/",
+    "clientsec": "XXXXXXXXXXr",
+    "reduri": "https://login.microsoftonline.com/common/oauth2/nativeclient",
+    "scope": "Calendars.ReadWrite offline_access",
+    "egraphurl": "https://graph.microsoft.com/v1.0/me/calendar/events",
+    "graphurl": "https://graph.microsoft.com/v1.0/me/calendar/calendarview",
+    "msauth_url": "https://login.microsoftonline.com/XXXXXXX/oauth2/v2.0/authorize?client_id=XXXXXXXXXXX&response_type=code&redirect_uri=https://login.microsoftonline.com/common/oauth2/nativeclient&response_mode=query&scope=Calendars.ReadWrite offline_access&state=12345",
+    "mstok_url": "https://login.microsoftonline.com/XXXXXXX/oauth2/v2.0/token",
+    "mstoken_file": "mstoken.json",
+    "gtoken_file": "gtoken.json"
+  }
+  
